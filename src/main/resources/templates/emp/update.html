@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.79.0">
+    <title>Dashboard Template · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link th:href="@{/assets/css/bootstrap.css}"  rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link th:href="@{/assets/css/dashboard.css}"  rel="stylesheet">
+  </head>
+  <body>
+<!--  顶部  -->
+<div th:replace="commons/bar.html::topbar"></div>
+
+<div class="container-fluid">
+  <div class="row">
+<!--  侧边  -->
+    <div th:replace="commons/bar.html::sidebar(activeUri='index.html')"></div>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <form th:action="@{/emp}" method="post">
+            <!--***易忘-->
+            <input type="hidden" name="_method" value="put"/>
+            <input type="hidden" name="_method" th:value="${emp.id}"/>
+            <div class="mb-3">
+                <label class="form-label">lastName</label>
+                <input type="text" class="form-control" name="lastName" th:value="${emp.lastName}"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">email</label>
+                <input type="email" class="form-control" name="email" th:value="${emp.email}"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">gender</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="1" name="gender" th:checked="${emp.gender==1}"/>
+                    <label class="form-check-label">
+                        男
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" value="0" name="gender" th:checked="${emp.gender==0}"/>
+                    <label class="form-check-label" >
+                        女
+                    </label>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">department</label>
+                <select name="department.id" class="form-select" aria-label="Default select example">
+                    <option th:selected="${emp.department.id}==${dept.id}" th:each="dept:${depts}" th:text="${dept.departmentName}" th:value="${dept.id}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">birth</label><br/>
+                <input disabled th:value="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm:ss')}">
+                <input th:value="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm:ss')}" type="date" class="form-control" name="birth"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">修改</button>
+        </form>
+
+    </main>
+  </div>
+</div>
+
+
+      <script th:src="@{/assets/js/bootstrap.bundle.js}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+      <script th:src="@{/assets/js/dashboard.js}"></script>
+  </body>
+</html>
